@@ -1,0 +1,44 @@
+1. NODEJS Installation
+-> NodeJs :
+-> JavaScript runtime environment used to runt he js outside the browser mainly on the server 
+   and used to build backend applications.
+-> Npm comes automatically with NodeJs
+-> run the command to check the version "node -v"
+-> if version shows -> already installed.
+-> if not -> install from nodejs.org
+-> check node -v
+ . Important Node Commands 
+    npm init -y
+    npm install express
+    npm install --save-dev nodemon
+    npm run dev
+
+2. POSTMAN Setup
+-> Postman: 
+-> Used to :
+  . Test APIs
+  . Send GET/POST/PUT/DELETE requests
+  . Check headers, body, status codes
+  . Debug backend
+
+  Install postman from https://www.postman.com/downloads/
+ -> if your node server runs on: http://localhost:5000
+ - In Postman: 
+ . Method -> GET
+ . URL -> http://localhost:5000/users
+ . Click Send
+
+ -> You'll see JSON response.
+ -> Postman used for API Debugging.
+ -> Testing before frontnend integration
+ -> Share API collections with team
+
+ 3 DB Client (pgAdmin)
+ -> Official PostgresSQL GUI.
+ -> Backend Setup: 
+    npm init -y
+    npm install express pg
+
+    Create server.js
+
+    
