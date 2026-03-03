@@ -6,7 +6,6 @@ architecture, and concurrency vs parallelism.
 ------------------------------------------------------------------------
 
 # 📌 Table of Contents
-
 1.  What is Node.js?
 2.  Node.js Architecture
 3.  Single-Threaded Non-Blocking Model

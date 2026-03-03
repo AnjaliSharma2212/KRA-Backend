@@ -1,0 +1,219 @@
+GIT COMMANDS
+--------------------------------------------------------------------
+1. Git init
+-> this command is used to initialize the git within the folder.
+-> by giving this command git will start tracking the folder.
+-> it create a new git repository in your project.
+ Example: mkdir gitCommands
+          cd gitCommands
+          git init
+   -> after this step git start tracking this folder.       
+   
+------------------------------------------------------------------------
+2. Git Clone
+-> this command is used to clone the repository from github into your local machine.
+-> this will copy the existing repository from github/gitlab
+EXAMPLE: git clone repoUrl
+         cd repo
+   -> Used when organization gives you project access and you have to clone/copy into your local System for working on that project.
+
+---------------------------------------------------------------------------
+ 3. Git status (Check the status )
+ -> this command is used to check the current status of the folder's file .
+ -> It shows :
+ -> Modified files
+ -> Staging files
+ -> Untracked files
+ -> Curent Branch
+ Example: git status
+ -> by pressing this command you will able to see the  all the files with their status
+
+-----------------------------------------------------------
+ 4.Git add  (moves to stagging area)
+ -> this command moves the file to stagging area
+    EXAMPLE: git add index.js -> for single file
+             git add .        -> for all files
+-------------------------------------------------------
+5. Git commit (saves the snapshot)
+-> creates a version checkPoint
+   EXAMPLE: git commit -m "feat: add user login API"
+
+-> Good commit format:
+    feat:"" -> when add a new feature
+    fix:"" -> any bugfix is perfomed
+    docs: "" -> documentation changes
+    refactor: "" -> Code improvement(no  other chnages made in folder and all)
+    chore: "" -> maintenance work (install dependencies)
+
+6. Git log
+-> this command is used to view the history of commits
+-------------------------------------------------------------
+7. Git Branch
+-> In professional way git do not use main Branch to directly make changes.
+-> we create a separte branch and apply the features and all .
+Example: git branch branchName
+         git checkout branchName
+  -> in modern way use -> git checkout -b feature/login       
+  -> to check the branches -> run command git branch
+  -> this will craete the branch but want to switch to that branch then we have to run git checkout branchName 
+  otherwise we will be working on the main branch only
+
+8. Git switch (Modern alternative)
+-> if we want immediate branch creation and switch to that branch
+------------------------------------------------------
+9. Git Merge
+-> combine the branches 
+Example: 
+  -> git switch main
+  -> git merge feature/login
+ ----------------------------------------------------------------
+ 10. Git pull
+ -> fetch + merge remote
+ -> fetch the remote changes
+  EXAMPLE:
+   git pull origin main
+   -> allways pull before pushing
+
+What it does:
+
+Fetches and merges latest changes from remote.
+
+How to use:
+git pull origin main
+When to use:
+
+At start of day
+
+Before creating PR
+
+Before pushing
+ -----------------------------------------------------------------
+11. git fetch
+What it does:
+
+Downloads changes without merging.
+
+How to use:
+git fetch
+When to use:
+
+Before rebasing
+
+When you want safe update
+---------------------------------------------------
+12. git rebase
+What it does:
+
+Reapplies your commits on top of another branch.
+
+How to use:
+git rebase origin/main
+When to use:
+
+Before pushing feature branch
+
+To keep history clean
+------------------------------------------
+13. git push
+What it does:
+
+Uploads commits to remote repository.
+
+How to use:
+git push origin feature/login-api
+When to use:
+
+After committing changes
+
+Before creating PR
+-------------------------------------------------------
+1️4. git diff
+What it does:
+
+Shows line-by-line changes.
+
+How to use:
+
+Unstaged changes:
+
+git diff
+
+Staged changes:
+
+git diff --staged
+When to use:
+
+Before committing
+
+While debugging
+-------------------------------------------------------
+1️5. git stash
+What it does:
+
+Temporarily saves unfinished work.
+
+How to use:
+git stash
+git stash pop
+When to use:
+
+Urgent branch switch
+
+Incomplete work
+
+Testing something temporarily
+----------------------------------------------------
+1️6 git reset
+What it does:
+
+Removes commits (rewrites history).
+
+Soft reset:
+
+git reset --soft HEAD~1
+
+Hard reset:
+
+git reset --hard HEAD~1
+When to use:
+
+Fix local mistake
+
+Undo last commit (before pushing)
+
+⚠ Never use hard reset on shared branch.
+---------------------------------------------------------
+17. git revert
+What it does:
+
+Creates new commit that reverses previous commit.
+
+How to use:
+git revert <commit-id>
+When to use:
+
+Undo pushed commit
+
+Production branch fixes
+
+Safe undo in team environment
+----------------------------------------------------------
+1️8. git remote
+What it does:
+
+Manages remote repository connections.
+
+How to use:
+
+View remotes:
+
+git remote -v
+
+Add remote:
+
+git remote add origin <repository-url>
+When to use:
+
+First time setup
+
+Changing repository URL
