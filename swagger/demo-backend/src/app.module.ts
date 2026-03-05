@@ -5,10 +5,12 @@ import { userModule } from './users/user.module';
 import { ConfigModule } from '@nestjs/config';
 import configuration from './config/configuration';
 import { validationSchema } from './config/validation';
+import { TaskModule } from './tasks/task.module';
 @Module({
-  imports: [userModule, ConfigModule.forRoot({
+  imports: [userModule,TaskModule, ConfigModule.forRoot({
     isGlobal:true,
     validationSchema,
+     
     load: [configuration],
 
   })],

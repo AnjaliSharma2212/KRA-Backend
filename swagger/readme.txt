@@ -375,3 +375,26 @@ Swagger UI	            API testing interface
 @ApiPropertyOptional	Optional field docs
 @ApiBearerAuth	        JWT auth
 DTO Decoration
+
+
+
+
+main.ts starts
+     ↓
+NestFactory.create(AppModule)
+     ↓
+ConfigModule loads .env
+     ↓
+ConfigService created
+     ↓
+registerAsync modules configured
+     ↓
+Global Pipes registered
+     ↓
+Global Interceptors registered
+     ↓
+CORS configured
+     ↓
+Swagger initialized
+     ↓
+Server starts listening
