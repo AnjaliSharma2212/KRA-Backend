@@ -115,3 +115,45 @@
 ----------------------JSONB--------------------
 
 -- in postgres data store in the binary json
+
+-- CREATE TABLE products (
+--   id SERIAL PRIMARY KEY,
+--   name TEXT,
+--   metadata JSONB
+-- );
+
+-- INSERT INTO products (name, metadata)
+-- VALUES (
+--   'Laptop',
+--   '{"brand":"Dell","ram":"16GB","color":"Black"}'
+-- );
+
+--QUeryy----
+-- SELECT name
+-- FROM products
+-- WHERE metadata->>'brand' = 'Dell';
+
+-- Operator	Meaning
+-- ->	     Get JSON object
+-- ->>	     Get text
+-- @>      contains
+
+
+--------RANGE PARTIONING-------------------
+
+-- CREATE TABLE sales (
+--   id SERIAL,
+--   sale_date DATE NOT NULL,
+--   amount NUMERIC
+-- ) PARTITION BY RANGE (sale_date);
+
+-- CREATE TABLE sales_2025
+-- PARTITION OF sales
+-- FOR VALUES FROM ('2025-01-01') TO ('2026-01-01');
+
+-- CREATE TABLE sales_2026
+-- PARTITION OF sales
+-- FOR VALUES FROM ('2026-01-01') TO ('2027-01-01');
+
+-- INSERT INTO sales (sale_date, amount)
+-- VALUES ('2025-06-01', 10000);

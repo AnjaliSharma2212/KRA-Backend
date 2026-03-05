@@ -31,3 +31,43 @@
                -> if rule break -> transaction fails.
 -> Isolation -> transaction will not interfare each other incorrectly.
 -> Durability -> after Commit data is permanently saved(even if system fails)
+
+4. JSONB:
+-> data stored in PostgresSQL in form form of JSONB
+-> Binary JSON
+-> Operator	Meaning
+    ->   	Get JSON object
+    ->>	    Get text
+    @>      contains
+
+5. Range Partitioning 
+-> data is partition by some Range  
+-> used for large data table.
+
+6. pg_dump / pg_restore
+
+-> Used for database backup & restore.
+
+-> Backup Database
+-> pg_dump -U postgres -d mydb -f backup.sql
+-> Restore
+-> psql -U postgres -d mydb -f backup.sql
+-> Custom Format (Recommended)
+-> pg_dump -U postgres -d mydb -Fc -f backup.dump
+
+-> Restore:
+
+-> pg_restore -U postgres -d mydb backup.dump
+-> Backup Specific Table
+-> pg_dump -U postgres -d mydb -t users -f users_backup.sql
+
+
+🚀 Real Production Usage
+Feature	Real Scenario
+INNER JOIN	Fetch user orders
+LEFT JOIN	Show inactive users
+Index	Login system
+Transaction	Payment processing
+JSONB	Flexible product attributes
+Partitioning	Large logs table
+pg_dump	Production backup
