@@ -1,98 +1,336 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# NestJS + TypeORM + PostgreSQL Backend (Learning Project)
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+This project demonstrates how to build a backend API using **NestJS**,
+**TypeORM**, and **PostgreSQL**.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Concepts Covered
 
-## Description
+-   Entities
+-   Relationships
+-   Repository Pattern
+-   DataSource
+-   Transactions
+-   QueryBuilder
+-   Pagination
+-   Validation
+-   Routing
+-   Migrations
+-   Pessimistic Locking
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+------------------------------------------------------------------------
 
-## Project setup
+# 1. Project Structure
 
-```bash
-$ npm install
+    src
+     ├── main.ts
+     ├── app.module.ts
+     │
+     ├── users
+     │   ├── users.module.ts
+     │   ├── users.controller.ts
+     │   ├── users.service.ts
+     │   ├── users.entity.ts
+     │   └── dto
+     │        └── create-user.dto.ts
+     │
+     ├── orders
+     │   ├── orders.module.ts
+     │   ├── orders.controller.ts
+     │   ├── orders.service.ts
+     │   ├── orders.entity.ts
+     │   └── dto
+     │        └── create-order.dto.ts
+     │
+     └── database
+         └── data-source.ts
+
+------------------------------------------------------------------------
+
+# 2. NestJS Architecture
+
+NestJS follows a **modular architecture**.
+
+  Component    Purpose
+  ------------ ----------------------------
+  Module       Organizes related features
+  Controller   Handles HTTP requests
+  Service      Business logic
+  Entity       Database table
+  DTO          Request validation
+
+------------------------------------------------------------------------
+
+# 3. Entities
+
+Entities define database tables using decorators.
+
+## User Entity
+
+``` ts
+@Entity()
+export class User {
+
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column()
+  name: string;
+
+  @Column()
+  email: string;
+}
 ```
 
-## Compile and run the project
+### Decorators
 
-```bash
-# development
-$ npm run start
+  Decorator                   Purpose
+  --------------------------- ----------------------
+  @Entity()                   Marks class as table
+  @Column()                   Creates column
+  @PrimaryGeneratedColumn()   Auto increment id
 
-# watch mode
-$ npm run start:dev
+------------------------------------------------------------------------
 
-# production mode
-$ npm run start:prod
+# 4. Relationships
+
+Example: **One User → Many Orders**
+
+User Entity
+
+``` ts
+@OneToMany(() => Order, order => order.user)
+orders: Order[];
 ```
 
-## Run tests
+Order Entity
 
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+``` ts
+@ManyToOne(() => User, user => user.orders)
+user: User;
 ```
 
-## Deployment
+------------------------------------------------------------------------
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+# 5. Repository Pattern
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+Repositories interact with database tables.
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+``` ts
+constructor(
+  @InjectRepository(Order)
+  private orderRepository: Repository<Order>
+) {}
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+Common methods:
 
-## Resources
+-   `find()`
+-   `findOne()`
+-   `save()`
+-   `delete()`
 
-Check out a few resources that may come in handy when working with NestJS:
+------------------------------------------------------------------------
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+# 6. DataSource
 
-## Support
+`DataSource` represents the database connection and allows:
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+-   transactions
+-   raw queries
+-   query builders
 
-## Stay in touch
+``` ts
+constructor(private dataSource: DataSource) {}
+```
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+------------------------------------------------------------------------
 
-## License
+# 7. Transactions
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+Transactions ensure multiple operations succeed together.
+
+Example: create order only if user exists.
+
+``` ts
+await this.dataSource.transaction(async manager => {
+
+  const user = await manager.findOne(User, {
+    where: { id: userId }
+  });
+
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  const order = manager.create(Order, {
+    quantity,
+    user
+  });
+
+  await manager.save(order);
+
+});
+```
+
+------------------------------------------------------------------------
+
+# 8. QueryBuilder
+
+Used for advanced SQL queries.
+
+Example with pagination:
+
+``` ts
+const qb = this.orderRepository
+  .createQueryBuilder('order')
+  .leftJoinAndSelect('order.user','user')
+  .skip((page-1)*limit)
+  .take(limit)
+
+const [data,total] = await qb.getManyAndCount()
+```
+
+------------------------------------------------------------------------
+
+# 9. Pagination
+
+Request:
+
+    GET /orders?page=1&limit=2
+
+Response:
+
+``` json
+{
+  "data": [],
+  "total": 0,
+  "page": 1,
+  "limit": 2
+}
+```
+
+------------------------------------------------------------------------
+
+# 10. DTO Validation
+
+DTOs validate request data.
+
+Example:
+
+``` ts
+export class CreateUserDto {
+
+  @IsString()
+  name: string;
+
+  @IsEmail()
+  email: string;
+
+}
+```
+
+Enable globally in `main.ts`
+
+``` ts
+app.useGlobalPipes(
+  new ValidationPipe({
+    whitelist:true
+  })
+)
+```
+
+------------------------------------------------------------------------
+
+# 11. Routing
+
+Controllers define API routes.
+
+    POST /users
+    GET /users
+    POST /orders
+    GET /orders
+
+Example:
+
+``` ts
+@Get()
+getOrders(@Query('page') page=1, @Query('limit') limit=10){
+  return this.ordersService.getOrders(page,limit)
+}
+```
+
+------------------------------------------------------------------------
+
+# 12. Migrations
+
+Migrations manage database schema changes.
+
+Generate migration:
+
+    npm run typeorm migration:generate -- src/migrations/init
+
+Run migration:
+
+    npm run typeorm migration:run
+
+------------------------------------------------------------------------
+
+# 13. Pessimistic Locking
+
+Prevents concurrent updates on the same row.
+
+Example:
+
+``` ts
+await this.dataSource.transaction(async manager => {
+
+ const order = await manager
+   .createQueryBuilder(Order,"order")
+   .setLock("pessimistic_write")
+   .where("order.id = :id",{id:orderId})
+   .getOne()
+
+ order.quantity += 1
+
+ await manager.save(order)
+
+})
+```
+
+------------------------------------------------------------------------
+
+# 14. Best Practices
+
+-   Always validate request using DTO
+-   Use transactions for critical operations
+-   Use QueryBuilder for complex queries
+-   Use migrations instead of synchronize in production
+-   Separate controller, service, and database layers
+
+------------------------------------------------------------------------
+
+# 15. Next Topics to Learn
+
+-   JWT Authentication
+-   Role Based Authorization
+-   Guards & Interceptors
+-   Redis Caching
+-   Microservices
+-   Message Queues (Kafka / RabbitMQ)
+
+------------------------------------------------------------------------
+
+# Summary
+
+This project demonstrates a scalable backend built using:
+
+-   NestJS
+-   TypeORM
+-   PostgreSQL
+
+Key backend engineering concepts include:
+
+-   modular architecture
+-   relational data modeling
+-   safe database transactions
+-   efficient querying
