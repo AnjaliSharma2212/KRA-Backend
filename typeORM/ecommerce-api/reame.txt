@@ -1,0 +1,22 @@
+    NestJs Architecture.
+
+
+Client Request
+      │
+      ▼
+Controller (Routing)
+      │
+      ▼
+DTO Validation
+      │
+      ▼
+Service (Business Logic)
+      │
+      ▼
+Repository
+      │
+      ▼
+TypeORM
+      │
+      ▼
+PostgreSQL Database

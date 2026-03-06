@@ -1,0 +1,21 @@
+import { Injectable, NestInterceptor, ExecutionContext, CallHandler } from '@nestjs/common';
+import { Observable, map } from 'rxjs';
+
+@Injectable()
+export class ResponseInterceptor implements NestInterceptor {
+  intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
+    // before the request
+    console.log('Before controller logic');
+
+    return next.handle().pipe(
+      map(data => {
+        // transform response
+        return {
+          status: 'success',
+          data,
+          timestamp: new Date().toISOString(),
+        };
+      }),
+    );
+  }
+}

@@ -1,0 +1,172 @@
+Git Basics
+
+1. Git Collaboration-
+- Branch Strategy( We never push directly to main branch )
+* Common structure will be like :
+
+* main or master ->
+- Production ready code
+- Always stable
+- Direct commits not allowed ❌.
+
+* develop ->
+-  Integration branch
+- All feature branches merge here first
+
+* feature/* ->
+- New features
+- Example: 
+- feature/user-auth
+- feature/add-product-api
+
+* bugfix/*
+- for fixing bugs
+- Example:
+- bugfix/login-error
+
+* hotfix/* -> 
+- Urgent Production fixes.
+- Example:
+hotfix/payment-crash
+
+2. Commit Messages
+- Good commit message = professional developer
+-- ❌ Bad commits
+- fixed
+- update
+- changes
+--✅ Good Commit (Conventional Commits)
+- type(scope): short description
+
+- Common Types:
+. feat -> new feature
+. fix -> bug fix
+. refractor
+. docs
+. style
+. test
+. chore
+- Example: 
+. feat(auth): add JWT login functionality
+. fix(cart): resolve total price calculation bug
+. refactor(api): optimize user fetch logic
+
+3. PR (Pull Request) / MR (Merge Request)
+- Github-> Pull Request (PR)
+- GitLab-> Merge Request (MR)
+  Both are same concept.
+
+  WORKING EXAMPLE:
+  STEP 1. Create Feature Branch
+   - git checkout -b feature/user-profile
+   STEP 2. Commit changes
+   - git add . (means add all file changes)
+   - git commit -m "feat(profile): add user profile page UI"
+   STEP 3. Push Branch
+   - git push origin feature/user-profile.
+   STEP 4. Create MR in GitLab
+   - Go to repository
+   - Click Create Merge Request
+   - Select :
+   . Source branch-> feature/user-profile
+   . Target branch-> develop
+   - Add:
+   . description
+   . screenshots
+   . related Jira Ticket.
+
+   Good MR description Format
+    ## What
+     Implemented user profile page UI
+
+    ## Why
+     Required for Phase 2 dashboard feature
+
+    ## Changes
+     - Added Profile component
+     - Integrated API
+     - Added loading state
+
+    ## Screenshots
+        (attached)
+
+    ## Related
+        JIRA-123
+
+4. Conflict Resolution
+   - What is Merge Conflict?
+   When:-
+   . Two developers change same file.
+   . Same lines edited differently.
+   - Git cannot decide -> manual fix needed
+   EXAMPLE:
+    <<<<<<< HEAD
+    const role = "admin";
+    =======
+    const role = "user";
+    >>>>>>> feature/auth
+
+    - How to resolve?
+     1. Open file
+     2. Decide correct code.
+     3. Remove conflict markers
+     4. Save file
+     5. Run
+     - git add .
+     - git commit -m "fix: resolve merge conflict in auth"
+
+     To Avoid Conflicts 
+     - Pull latest changes before working
+     - Use command - "git pull origin develop"
+     - Keep feature branches small
+     - Merge frequently
+     - Communicate with team
+
+    
+   ---------- Demo how to use these commands--------------
+        1. Create Feature Branch
+        2. First switch to the other branch and pull the latest.
+        command: "git checkout develop"
+                "git pull origin develop"
+        3. Now Create feature branch:
+        command: "git checkout -b feature/update-greeting"
+        4. Make changes in file:
+        -  then commit 
+        command: "git add ." // add the files
+                "git commit -m "feat(greet): update greeting message for admin" // commit with messsage
+        push branch: "git push origin feature/update-greeting"
+        5. Raise Merge Request (PR)
+        go to gitlab -> create merge request->
+        Select: Source: feature/update-greeting
+        Target: develop
+            ## What
+            Updated greeting message
+
+            ## Why
+            Required for admin dashboard
+
+            ## Changes
+            Modified greet() function
+
+        6. Pulllatest develop into Feature Branch
+        "git chcekout feature/update-greeting
+        " git pull origin develop" 
+        Now git shows conflict
+        File will look likw this:
+        function greet() {
+        <<<<<<< HEAD
+        return "Hello Admin";
+        =======
+        return "Hello Super User";
+        >>>>>>> develop
+        }
+
+console.log(greet());           
+
+
+7. Resolve Conflicts- dcecide final version
+
+8. Mark as Resolved.
+    "git add app.js
+    git commit -m "fix: resolve merge conflict in greet function"
+    git push origin feature/update-greeting"
